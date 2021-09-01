@@ -1,0 +1,74 @@
+package JDBC;
+
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+
+public class TestConnJava {
+	public static void main(String[] args) throws Exception {
+		 select();
+//		 add();
+//		 update();
+//		 delete();
+	}
+
+	private static void select() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/companydata", "root", "root");
+
+		Statement stmt = con.createStatement();
+
+		ResultSet rs = stmt.executeQuery("Select * from empdata");
+		System.out.println("ID\tFname\tLname\tSalary");
+
+		while (rs.next()) {
+			System.out.print(rs.getString(1));
+			System.out.print("\t" + rs.getString(2));
+			System.out.print("\t" + rs.getString(3));
+			System.out.println("\t" + rs.getString(4));
+		}
+		rs.close();
+		stmt.close();
+		con.close();
+	}
+
+	private static void add() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/companydata", "root", "root");
+
+		Statement stmt = con.createStatement();
+
+		int i = stmt.executeUpdate("Insert into empdata values(7,'Ramesh','Gupta',25000)");
+		System.out.println(i + " Inserted");
+
+		stmt.close();
+		con.close();
+	}
+
+	private static void update() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/companydata", "root", "root");
+
+		Statement stmt = con.createStatement();
+
+		int i = stmt.executeUpdate("Update empdata set fname='Raju', lname='Vyas', Salary= 25000 where id=4");
+		System.out.println(i + " Updated");
+
+		stmt.close();
+		con.close();
+	}
+
+	private static void delete() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/companydata", "root", "root");
+
+		Statement stmt = con.createStatement();
+
+		int i = stmt.executeUpdate("Delete from empdata where id=7");
+		System.out.println(i + " deleted");
+
+		stmt.close();
+		con.close();
+	}
+}
